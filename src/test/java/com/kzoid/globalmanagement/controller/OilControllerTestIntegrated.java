@@ -1,14 +1,14 @@
 package com.kzoid.globalmanagement.controller;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -16,10 +16,9 @@ import java.net.URL;
 
 import static com.kzoid.globalmanagement.controller.OilController.BASE_PATH;
 import static com.kzoid.globalmanagement.controller.OilController.REVENUE_YIELD_PATH;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class OilControllerTestIntegrated {
 
@@ -31,7 +30,7 @@ public class OilControllerTestIntegrated {
     @Autowired
     private TestRestTemplate template;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         this.base = new URL("http://localhost:" + port + "/");
     }
@@ -44,7 +43,7 @@ public class OilControllerTestIntegrated {
 
         ResponseEntity<String> response = template
             .getForEntity(base.toString() + BASE_PATH + REVENUE_YIELD_PATH + "/" + oilId + "/" + input, String.class);
-        assertThat(response.getBody(), equalTo(expect));
+        assertEquals(response.getBody(), expect);
     }
 
     @Test
@@ -55,6 +54,6 @@ public class OilControllerTestIntegrated {
 
         ResponseEntity<String> response = template
             .getForEntity(base.toString() + BASE_PATH + REVENUE_YIELD_PATH + "/" + oilId + "/" + input, String.class);
-        assertThat(response.getBody(), equalTo(expect.toString()));
+        assertEquals(response.getBody(), expect.toString());
     }
 }
